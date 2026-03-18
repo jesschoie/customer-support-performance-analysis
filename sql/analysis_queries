@@ -1,0 +1,103 @@
+-- Updating submission_date to a Date format
+ALTER TABLE tickets
+MODIFY COLUMN submission_date DATE;
+
+-- Total Number of Tickets
+SELECT COUNT(*)
+FROM tickets;
+
+-- Date Range
+SELECT MIN(submission_date), 
+	   MAX(submission_date)
+FROM tickets;
+
+-- Average Resolution Time in Hours
+SELECT ROUND(AVG(resolution_time_hours),2) AS avg_resolution_time
+FROM tickets;
+
+-- Average Satisfaction Score
+SELECT ROUND(AVG(satisfaction_score),2) AS avg_satisfaction
+FROM tickets;
+
+-- Tickets per Month
+SELECT DATE_FORMAT(submission_date, '%Y-%m') AS month, 
+	   COUNT(*) AS ticket_count
+FROM tickets
+GROUP BY month
+ORDER BY month;
+
+-- Tickets by Priority Level
+SELECT priority_level, 
+	   COUNT(*) AS priority_count
+FROM tickets
+GROUP BY priority_level
+ORDER BY priority_count DESC;
+
+-- Average Resolution Time by Priority Level
+SELECT priority_level, 
+	   ROUND(AVG(resolution_time_hours),2) AS avg_resolution_time
+FROM tickets
+GROUP BY priority_level
+ORDER BY avg_resolution_time DESC;
+
+-- Ticket Count, Average Satisfaction and Average Resolution Time by Issue Category
+SELECT issue_category,
+	   COUNT(*) AS ticket_count,
+	   ROUND(AVG(satisfaction_score),2) AS avg_satisfaction,
+       ROUND(AVG(resolution_time_hours),2) AS avg_resolution_time
+FROM tickets
+GROUP BY issue_category
+ORDER BY ticket_count DESC;
+
+-- Tickets Handled, Resolution Time and Satisfaction Score and Workload Percentage per Agent
+SELECT assigned_agent, 
+	   COUNT(*) AS tickets_handled, 
+       ROUND(AVG(resolution_time_hours),2) AS avg_resolution_time,
+       ROUND(AVG(satisfaction_score),2) AS avg_satisfaction,
+       ROUND(COUNT(*)*100/(SELECT COUNT(*) FROM tickets),2) AS workload_percentage
+FROM tickets
+GROUP BY assigned_agent
+ORDER BY tickets_handled DESC;
+
+-- Tickets per Satisfaction Score
+SELECT satisfaction_score, 
+	   COUNT(*) AS ticket_count
+FROM tickets
+GROUP BY satisfaction_score;
+
+-- Average Satisfaction by Priority
+SELECT priority_level,
+	   ROUND(AVG(satisfaction_score),2) AS avg_satisfaction
+FROM tickets
+GROUP BY priority_level
+ORDER BY avg_satisfaction DESC;
+
+-- Tickets per Ticket Channel
+SELECT ticket_channel,
+	   COUNT(*) AS ticket_count
+FROM tickets
+GROUP BY ticket_channel
+ORDER BY ticket_count DESC;
+
+-- Resolution Time by Satisfaction Score
+SELECT CASE WHEN resolution_time_hours <= 24 THEN 'Fast'
+			WHEN resolution_time_hours <= 72 THEN 'Medium'
+            ELSE 'Slow'
+            END AS resolution_speed,
+            ROUND(AVG(satisfaction_score),2) AS avg_satisfaction
+FROM tickets
+GROUP BY resolution_speed;
+
+-- Resolution Time per Month
+SELECT DATE_FORMAT(submission_date, '%Y-%m') AS month,
+	   ROUND(AVG(resolution_time_hours),2) AS avg_resolution_time
+FROM tickets
+GROUP BY month
+ORDER BY month;
+
+-- Ticket Count by Day of Week
+SELECT DAYNAME(submission_date) AS day_of_week,
+	   COUNT(*) AS ticket_count
+FROM tickets
+GROUP BY day_of_week
+ORDER BY ticket_count DESC;
