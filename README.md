@@ -45,7 +45,7 @@ SQL queries were used to calculate key performance metrics including ticket volu
 
 A dashboard was created in Tableau to visualise key service desk performance metrics, including ticket trends, resolution times, and agent performance.
 
-<img width="940" height="629" alt="image" src="https://github.com/user-attachments/assets/6a748a7f-8f2e-4cbe-8664-a465da0ad835" />
+<img width="1203" height="807" alt="tableau dashboard" src="https://github.com/user-attachments/assets/b092c7b9-8a08-479b-a2b5-e86b8ff32002" />
 
 View the interactive Dashboard in Tableau: https://public.tableau.com/app/profile/jess.choie/viz/CustomerSupportPerformanceDashboard_17738410119610/CustomerSupportPerformanceDashboard
 
